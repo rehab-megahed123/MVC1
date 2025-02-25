@@ -3,19 +3,21 @@
 
 
 
+using MVC.BLL.Manager.Abstraction;
+
 namespace MVcProject.Controllers
 {
     public class DepartmentController : Controller
     {
-        IDepartmentRepository departmentRepository;
-        public DepartmentController(IDepartmentRepository obj)
+        IDepartmentManager departmentManager;
+        public DepartmentController(IDepartmentManager obj)
         {
-            departmentRepository = obj;
+            departmentManager = obj;
         }
 
         public IActionResult Index()
         {
-            List<Department> DepartmentList = departmentRepository.GetAll();
+            List<Department> DepartmentList = departmentManager.GetAll();
             
             return View("Index",DepartmentList);
         }

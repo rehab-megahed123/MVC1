@@ -1,14 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MVC.DAL.Repository.Abstraction;
 using MVcProject.Models;
 
-namespace MVcProject.Repository
+namespace MVC.DAL.Repository.Implementation
 {
-    public class DepartmentRepository :IDepartmentRepository
+    public class DepartmentRepository : IDepartmentRepository
     {
-        ApplicationDBContext db;
-        public DepartmentRepository(ApplicationDBContext _conext)
+        
+        private readonly ApplicationDBContext db;
+
+        public DepartmentRepository(ApplicationDBContext context)
         {
-            db = _conext;
+            db = context ?? throw new ArgumentNullException(nameof(context));
         }
         public void add(Department department)
         {
@@ -21,17 +24,17 @@ namespace MVcProject.Repository
         }
         public void delete(int id)
         {
-           Department department=GetbyId(id);
-           db.Remove(department);
+            Department department = GetbyId(id);
+            db.Remove(department);
         }
         public List<Department> GetAll()
         {
             return db.Departments.ToList();
-            
+
         }
         public Department GetbyId(int id)
         {
-            var departmentObj=db.Departments.FirstOrDefault(a => a.Id == id);
+            var departmentObj = db.Departments.FirstOrDefault(a => a.Id == id);
             return departmentObj;
         }
         public void SaveChange()

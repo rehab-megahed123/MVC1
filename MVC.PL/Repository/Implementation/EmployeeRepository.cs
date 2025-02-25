@@ -1,11 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MVC.DAL.Repository.Abstraction;
 using MVcProject.Models;
 
-namespace MVcProject.Repository
+namespace MVC.DAL.Repository.Implementation
 {
-    public class EmployeeRepository :IEmployeeRepository
+    public class EmployeeRepository : IEmployeeRepository
     {
-        ApplicationDBContext db;
+        private readonly ApplicationDBContext db;
+
         public EmployeeRepository(ApplicationDBContext _context)
         {
             db = _context;
@@ -26,7 +28,7 @@ namespace MVcProject.Repository
         }
         public List<Employee> GetAll()
         {
-            return db.Employees.Include(a=>a.Department).ToList();
+            return db.Employees.Include(a => a.Department).ToList();
 
         }
         public Employee GetbyId(int id)

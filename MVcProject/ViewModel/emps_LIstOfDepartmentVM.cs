@@ -11,6 +11,7 @@ namespace MVcProject.ViewModel
         public string JobTitle { get; set; }
         public string? ImageUrl { get; set; }
         public string? Address { get; set; }
+
         public IFormFile formFile { get; set; }
 
 

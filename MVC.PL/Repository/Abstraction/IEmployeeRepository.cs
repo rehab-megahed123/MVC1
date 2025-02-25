@@ -1,6 +1,6 @@
 ﻿using MVcProject.Models;
 
-namespace MVcProject.Repository
+namespace MVC.DAL.Repository.Abstraction
 {
     public interface IEmployeeRepository
     {
@@ -15,6 +15,6 @@ namespace MVcProject.Repository
         public Employee GetbyId(int id);
 
         public void SaveChange();
-        
+
     }
 }

@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MVC.BLL.Manager.Abstraction;
 using MVcProject.Models;
-using MVcProject.Repository;
+using Microsoft.AspNetCore.Http;
+
+
 using MVcProject.ViewModel;
 
 namespace MVcProject.Controllers
@@ -9,12 +12,12 @@ namespace MVcProject.Controllers
    
     public class EmployeeController : Controller
     {
-        IEmployeeRepository employeeRepository;
-        IDepartmentRepository departmentRepository;
-        public EmployeeController(IEmployeeRepository objEmployee,IDepartmentRepository objDepartment)
+        IEmployeeManager employeeManager;
+        IDepartmentManager departmentManager;
+        public EmployeeController(IEmployeeManager objEmployee,IDepartmentManager objDepartment)
         {
-            employeeRepository = objEmployee;
-            departmentRepository = objDepartment;
+            employeeManager = objEmployee;
+            departmentManager = objDepartment;
         }
         public IActionResult Details(int id)
         {
@@ -25,7 +28,7 @@ namespace MVcProject.Controllers
             int bonus4 = 1500;
 
 
-            var emp = employeeRepository.GetbyId(id);
+            var emp = employeeManager.GetbyId(id);
             ViewData["msg"] = msg;
             ViewData["bonus1"] = bonus1;
             ViewData["bonus2"] = bonus2;
@@ -42,7 +45,7 @@ namespace MVcProject.Controllers
         public IActionResult DetailsVM(int id)
         {
 
-            Employee emp = employeeRepository.GetbyId(id);
+            Employee emp = employeeManager.GetbyId(id);
             Empbonus_emps_detailsViewModel vm1=new Empbonus_emps_detailsViewModel();
             vm1.EmpName = emp.Name;
             vm1.Salary = emp.Salary;
@@ -55,7 +58,7 @@ namespace MVcProject.Controllers
         }
         public IActionResult GetAll()
         {
-            var list = employeeRepository.GetAll();
+            var list = employeeManager.GetAll();
             
             return View("ShowAll", list);
 
@@ -63,7 +66,7 @@ namespace MVcProject.Controllers
         public IActionResult AddEmployee()
         {
             emps_LIstOfDepartmentVM emps = new emps_LIstOfDepartmentVM();
-            emps.DepartmentList = departmentRepository.GetAll();
+            emps.DepartmentList = departmentManager.GetAll();
            
 
 
@@ -92,13 +95,13 @@ namespace MVcProject.Controllers
 
 
                 
-                employeeRepository.add(emp);
-                employeeRepository.SaveChange();
+                employeeManager.add(emp);
+                employeeManager.SaveChange();
 
                 return RedirectToAction("GetAll");
             }
             emps_LIstOfDepartmentVM emps = new emps_LIstOfDepartmentVM();
-            emps.DepartmentList = departmentRepository.GetAll();
+            emps.DepartmentList = departmentManager.GetAll();
             emps.Name = emp.Name;
             emps.Salary = emp.Salary;
             emps.DepartmentId = emp.DepartmentId;
@@ -114,8 +117,8 @@ namespace MVcProject.Controllers
            
             Employee employee1 = new Employee();
             emps_LIstOfDepartmentVM emps = new emps_LIstOfDepartmentVM();
-            employee1 = employeeRepository.GetbyId(id);
-            emps.DepartmentList = departmentRepository.GetAll();
+            employee1 = employeeManager.GetbyId(id);
+            emps.DepartmentList = departmentManager.GetAll();
             emps.Name = employee1.Name;
             emps.Address = employee1.Address;
             emps.DepartmentId = employee1.DepartmentId;
@@ -133,7 +136,7 @@ namespace MVcProject.Controllers
             if (emp.Id != null && emp.Name != null && emp.Salary != null && emp.JobTitle != null && emp.DepartmentId != null)
             {
 
-                var empToUpdate = employeeRepository.GetbyId(emp.Id);
+                var empToUpdate = employeeManager.GetbyId(emp.Id);
 
                 
                 if (empToUpdate != null)
@@ -169,8 +172,8 @@ namespace MVcProject.Controllers
                     }
 
 
-                    employeeRepository.update(empToUpdate);
-                    employeeRepository.SaveChange();
+                    employeeManager.update(empToUpdate);
+                    employeeManager.SaveChange();
                 }
 
                 
@@ -183,9 +186,9 @@ namespace MVcProject.Controllers
         public IActionResult DeleteEmployee(int id)
         {
             
-            var emp = employeeRepository.GetbyId(id);
-            employeeRepository.delete(emp.Id);
-            employeeRepository.SaveChange();
+            var emp = employeeManager.GetbyId(id);
+            employeeManager.delete(emp.Id);
+            employeeManager.SaveChange();
             return RedirectToAction("GetAll");
         }
     }

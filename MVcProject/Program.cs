@@ -1,6 +1,10 @@
 using Microsoft.EntityFrameworkCore;
+using MVC.BLL.Manager.Abstraction;
+using MVC.BLL.Manager.Implementation;
+using MVC.DAL.Repository.Abstraction;
+using MVC.DAL.Repository.Implementation;
 using MVcProject.Models;
-using MVcProject.Repository;
+
 
 namespace MVcProject
 {
@@ -12,8 +16,10 @@ namespace MVcProject
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
-            builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            builder.Services.AddScoped<IEmployeeManager, EmployeeManager>();
+            builder.Services.AddScoped<IDepartmentManager, DepartmentManager>();
             builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+            builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             builder.Services.AddDbContext<ApplicationDBContext>(options =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("cs"));

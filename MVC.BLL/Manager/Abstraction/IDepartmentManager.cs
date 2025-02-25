@@ -1,9 +1,17 @@
-﻿using MVcProject.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using MVC.DAL.Repository.Implementation;
+using MVcProject.Models;
 
-namespace MVcProject.Repository
+namespace MVC.BLL.Manager.Abstraction
 {
-    public interface IDepartmentRepository
+    public interface IDepartmentManager
     {
+        
+
         public void add(Department department);
 
 
@@ -20,6 +28,5 @@ namespace MVcProject.Repository
 
 
         public void SaveChange();
-        
     }
 }
