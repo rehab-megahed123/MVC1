@@ -18,7 +18,12 @@ namespace MVcProject
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("cs"));
             });
-
+            builder.Services.AddSession(); //default
+            //if i want to change default:
+            builder.Services.AddSession(options => {
+                options.IOTimeout = TimeSpan.FromMinutes(30);
+                }
+            );
             var app = builder.Build();
             #region (Custom MiddleWares)
             //app.Use(async(httpContext, Next) =>
@@ -49,6 +54,8 @@ namespace MVcProject
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
+            app.UseSession();
 
             app.UseRouting();
 
