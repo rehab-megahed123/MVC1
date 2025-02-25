@@ -1,0 +1,23 @@
+﻿@using MVcProject.ViewModel
+@model Empbonus_emps_detailsViewModel  
+
+
+    <div class="card" style="width: 18rem;">
+  <img class="card-img-top" src="@Model.image" alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title">Details for employee:@Model.EmpName</h5>
+    <p class="card-text" style="color:@Model.Color">This Employee(@Model.DeptName) works on the Department Of (@Model.DeptName)</p>
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">Salary:@Model.Salary</li>
+     <li class="list-group-item">Monthly Bonus:@Model.bonus</li>
+     <li class="list-group-item">Salary After Bonus:@Model.SalaryAfterBonus</li>
+  
+        
+  </ul>
+  <div class="card-body">
+    <a href="#" class="card-link">Card link</a>
+    <a href="#" class="card-link">Another link</a>
+  </div>
+</div>
+

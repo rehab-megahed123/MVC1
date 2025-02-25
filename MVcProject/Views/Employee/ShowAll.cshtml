@@ -1,0 +1,42 @@
+﻿@using MVcProject.Models;
+@model List<Employee>
+
+<a href="~/Employee/AddEmployee" class="btn btn-primary" style="background-color: #ff7e5f;">Add Employee</a>
+
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+     <th scope="col" style="color: #ff7e5f;">#</th>
+
+      <th scope="col" style="color: #ff7e5f;">Name</th>
+      <th scope="col" style="color: #ff7e5f;">Department</th>
+      <th scope="col" style="color: #ff7e5f;">Address</th>
+      <th scope="col" style="color: #ff7e5f;">Job Title</th>
+      <th scope="col" style="color: #ff7e5f;">Image</th>
+    </tr>
+  </thead>
+  <tbody>
+        @for (int i = 0;i < @Model.Count;i++)
+      {
+    <tr>
+      <th scope="row">@(i+1)</th>
+      <td>@Model[i].Name</td>
+      <td>@Model[i].Department.Name</td>
+      <td>@Model[i].Address</td>
+      <td>@Model[i].JobTitle</td>
+              <td><img src="@Model[i].ImageUrl" alt="Image" width="80px" height="auto" /></td>
+          <td><a href="~/Employee/EditEmployee/@Model[i].Id" class="btn btn-primary" style="background-color: #ff7e5f;">Edit</a></td>  
+          <td><a href="~/Employee/DeleteEmployee/@Model[i].Id" class="btn btn-primary" style="background-color: #ff7e5f;">Delete</a></td>  
+              <td><a href="~/Employee/DetailsVM/@Model[i].Id" class="btn btn-primary" style="background-color: #ff7e5f;">Bonus Details</a></td>  
+
+
+
+
+    </tr>
+      }
+    
+  </tbody>
+</table>
+
+
+

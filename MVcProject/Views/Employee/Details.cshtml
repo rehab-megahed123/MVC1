@@ -1,0 +1,32 @@
+﻿@model Employee
+
+    <div class="card" style="width: 18rem;">
+  <img class="card-img-top" src="~/images/@Model.ImageUrl" alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title">Details for employee:@Model.Name</h5>
+    <p class="card-text" style="color:@ViewBag.color">This Employee(@Model.Name) works on the Department Of (@Model.Department.Name)</p>
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">Salary:@Model.Salary</li>
+    <li class="list-group-item">DepartmentNumber:@Model.DepartmentId</li>
+    <li class="list-group-item">Address:@Model.Address</li>
+    <li class="list-group-item">Job Title:@Model.JobTitle</li>
+        @if (Model.DepartmentId == 1)
+        {
+                <li class="list-group-item">Monthly Bonus:@ViewBag.bonus1</li>
+        }
+        else if (Model.DepartmentId == 2)
+        {
+              <li class="list-group-item">Monthly Bonus:@ViewBag.bonus2</li>  
+        }else if(Model.DepartmentId == 3){
+                <li class="list-group-item">Monthly Bonus:@(ViewData["bonus3"].ToString())</li>
+        }else{
+                <li class="list-group-item">Monthly Bonus:@ViewBag.bonus4</li>
+        }
+        
+  </ul>
+  <div class="card-body">
+    <a href="#" class="card-link">Card link</a>
+    <a href="#" class="card-link">Another link</a>
+  </div>
+</div>
