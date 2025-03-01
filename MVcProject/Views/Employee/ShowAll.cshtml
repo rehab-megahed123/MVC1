@@ -1,6 +1,7 @@
 ﻿@using MVcProject.Models;
 @model List<Employee>
 
+
 <a href="~/Employee/AddEmployee" class="btn btn-primary" style="background-color: #ff7e5f;">Add Employee</a>
 
 <table class="table">
@@ -25,10 +26,9 @@
       <td>@Model[i].Address</td>
       <td>@Model[i].JobTitle</td>
               <td><img src="@Model[i].ImageUrl" alt="Image" width="80px" height="auto" /></td>
-          <td><a href="~/Employee/EditEmployee/@Model[i].Id" class="btn btn-primary" style="background-color: #ff7e5f;">Edit</a></td>  
-          <td><a href="~/Employee/DeleteEmployee/@Model[i].Id" class="btn btn-primary" style="background-color: #ff7e5f;">Delete</a></td>  
+              <td><a asp-action="EditEmployee" asp-route-Id ="@Model[i].Id" class="btn btn-primary" style="background-color: #ff7e5f;"> Edit </a></td>
+              <td><a href="~/Employee/DeleteEmployee/@Model[i].Id" class="btn btn-primary" style="background-color: #ff7e5f;">Delete</a></td>  
               <td><a href="~/Employee/DetailsVM/@Model[i].Id" class="btn btn-primary" style="background-color: #ff7e5f;">Bonus Details</a></td>  
-
 
 
 

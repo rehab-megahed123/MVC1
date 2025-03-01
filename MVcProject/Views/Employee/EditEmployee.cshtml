@@ -1,12 +1,15 @@
 ﻿@using MVcProject.ViewModel;
 @model emps_LIstOfDepartmentVM
 <form action="@Url.Action("EditEmployeeSave", "Employee")" method="post" enctype="multipart/form-data">
+
    <input type="hidden" name="Id" value="@Model.Id" />
+
   <div class="form-row">
     <div class="form-group col-md-6">
       <label for="inputEmail4">Name</label>
       <input type="text" class="form-control" id="inputEmail4" placeholder="Full Name" name="Name" value="@Model?.Name">
     </div>
+
     <div class="form-group col-md-6">
       <label for="inputPassword4">Salary</label>
       <input type="number" class="form-control" id="inputPassword4" placeholder="Salary" name="Salary" value="@Model?.Salary">
@@ -20,8 +23,9 @@
 
   <div class="form-group">
     <label for="inputImage">Profile Image</label>
-    <input type="file" name="formFile" accept="image/*" class="form-control" id="inputImage">
+    <input type="file" name="formFile" accept="image/*" class="form-control" id="inputImage" >
   </div>
+
   <div class="form-group">
     <label for="inputAddress2">Job Title</label>
     <input type="text" class="form-control" id="inputAddress2" placeholder="Job Title" name="JobTitle" value="@Model?.JobTitle">
@@ -32,9 +36,8 @@
     <select id="inputState" class="form-control" name="DepartmentId">
             @for (int i = 0; i < Model.DepartmentList.Count; i++)
             {
-                        <option  value="@Model.DepartmentList[i].Id" >@Model.DepartmentList[i].Name</option>
+                 <option  selected= "(@Model.DepartmentId)+1" value="@Model.DepartmentList[i].Id" >@Model.DepartmentList[i].Name</option>
             }
-
     </select>
   </div>
 

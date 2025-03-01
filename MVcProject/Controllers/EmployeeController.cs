@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 
 
 using MVcProject.ViewModel;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace MVcProject.Controllers
 {
@@ -67,7 +68,8 @@ namespace MVcProject.Controllers
         {
             emps_LIstOfDepartmentVM emps = new emps_LIstOfDepartmentVM();
             emps.DepartmentList = departmentManager.GetAll();
-           
+            emps.DeptOptions = new SelectList(emps.DepartmentList, "Id", "Name");
+
 
 
             return View("AddEmployee",emps);
@@ -77,7 +79,7 @@ namespace MVcProject.Controllers
 
         public IActionResult AddEmployeeSave(Employee emp)
         {
-            if ( emp.Name != null && emp.DepartmentId != null && emp.Salary != null && emp.JobTitle != null)
+            if ( emp.Name != null && emp.DepartmentId != null && emp.DepartmentId!=0 && emp.Salary != null && emp.JobTitle != null)
             {
 
                 if (emp.formFile != null && emp.formFile.Length > 0)
@@ -95,6 +97,7 @@ namespace MVcProject.Controllers
 
 
                 
+                
                 employeeManager.add(emp);
                 employeeManager.SaveChange();
 
@@ -108,6 +111,9 @@ namespace MVcProject.Controllers
             emps.Address = emp.Address;
             emps.JobTitle = emp.JobTitle;
             emps.ImageUrl = emp.ImageUrl;
+            emps.formFile = emp.formFile;
+            emps.DeptOptions = new SelectList(emps.DepartmentList, "Id", "Name");
+
 
             return View ("AddEmployee",emps);
 
