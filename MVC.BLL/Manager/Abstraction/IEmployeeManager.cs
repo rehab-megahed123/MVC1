@@ -12,6 +12,7 @@ namespace MVC.BLL.Manager.Abstraction
     {
         
         public void add(Employee employee);
+        
 
         public void update(Employee employee);
 

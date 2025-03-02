@@ -77,9 +77,9 @@ namespace MVcProject.Controllers
 
         
 
-        public IActionResult AddEmployeeSave(Employee emp)
+        public IActionResult AddEmployeeSave(emps_LIstOfDepartmentVM emp)
         {
-            if ( emp.Name != null && emp.DepartmentId != null && emp.DepartmentId!=0 && emp.Salary != null && emp.JobTitle != null)
+            if ( ModelState.IsValid==true)
             {
 
                 if (emp.formFile != null && emp.formFile.Length > 0)
@@ -98,24 +98,28 @@ namespace MVcProject.Controllers
 
                 
                 
-                employeeManager.add(emp);
+                employeeManager.add(new Employee
+                {
+                    Name=emp.Name,
+                    Salary=emp.Salary,
+                    DepartmentId=emp.DepartmentId,
+                    JobTitle=emp.JobTitle,
+                    ImageUrl=emp.ImageUrl,
+                    Address=emp.Address,
+                    formFile=emp.formFile
+
+                });
                 employeeManager.SaveChange();
 
                 return RedirectToAction("GetAll");
             }
-            emps_LIstOfDepartmentVM emps = new emps_LIstOfDepartmentVM();
-            emps.DepartmentList = departmentManager.GetAll();
-            emps.Name = emp.Name;
-            emps.Salary = emp.Salary;
-            emps.DepartmentId = emp.DepartmentId;
-            emps.Address = emp.Address;
-            emps.JobTitle = emp.JobTitle;
-            emps.ImageUrl = emp.ImageUrl;
-            emps.formFile = emp.formFile;
-            emps.DeptOptions = new SelectList(emps.DepartmentList, "Id", "Name");
+            
+            emp.DepartmentList = departmentManager.GetAll();
+            
+            emp.DeptOptions = new SelectList(emp.DepartmentList, "Id", "Name");
 
 
-            return View ("AddEmployee",emps);
+            return View ("AddEmployee",emp);
 
         }
         public IActionResult EditEmployee(int id)
