@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using MVC.BLL.Manager.Abstraction;
 using MVC.BLL.Manager.Implementation;
+using MVC.DAL.Models;
 using MVC.DAL.Repository.Abstraction;
 using MVC.DAL.Repository.Implementation;
 using MVcProject.Models;
@@ -30,6 +31,10 @@ namespace MVcProject
                 options.IOTimeout = TimeSpan.FromMinutes(30);
                 }
             );
+            builder.Services.AddDbContext<ApplicationDBContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("cs"));
+            });
             var app = builder.Build();
             #region (Custom MiddleWares)
             //app.Use(async(httpContext, Next) =>

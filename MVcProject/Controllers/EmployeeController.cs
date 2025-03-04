@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 
 using MVcProject.ViewModel;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Linq.Expressions;
 
 namespace MVcProject.Controllers
 {
@@ -74,54 +75,76 @@ namespace MVcProject.Controllers
 
             return View("AddEmployee",emps);
         }
+        //Remote Attribute Using Ajax call ==> The Layout must contain scripts of jquery
+        public IActionResult CheckName(string Name,string Address)
+        {
+            if (Name.Contains("ITI"))
+            {
+                return Json(true);
+            }
+            return Json(false);
+        }
 
         
 
         public IActionResult AddEmployeeSave(emps_LIstOfDepartmentVM emp)
         {
-            if ( ModelState.IsValid==true)
+            if (ModelState.IsValid == true)
             {
-
-                if (emp.formFile != null && emp.formFile.Length > 0)
+                //Custom Validator
+                if (emp.DepartmentId != 0)
                 {
-                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", emp.formFile.FileName);
-                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    try
                     {
-                        emp.formFile.CopyTo(stream);
+                        if (emp.formFile != null && emp.formFile.Length > 0)
+                        {
+                            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", emp.formFile.FileName);
+                            using (var stream = new FileStream(filePath, FileMode.Create))
+                            {
+                                emp.formFile.CopyTo(stream);
+                            }
+
+                            emp.ImageUrl = "/images/" + emp.formFile.FileName;
+                        }
+
+                        employeeManager.add(new Employee
+                        {
+                            Name = emp.Name,
+                            Salary = emp.Salary,
+                            DepartmentId = emp.DepartmentId,
+                            JobTitle = emp.JobTitle,
+                            ImageUrl = emp.ImageUrl,
+                            Address = emp.Address,
+                            formFile = emp.formFile
+
+                        });
+                        employeeManager.SaveChange();
+
+                        return RedirectToAction("GetAll");
                     }
 
-                    emp.ImageUrl = "/images/" + emp.formFile.FileName;
+                    catch (Exception ex)
+                    {
+                        ModelState.AddModelError("", ex.Message);
+
+                    }
                 }
-
-
-
-
-                
-                
-                employeeManager.add(new Employee
+                else
                 {
-                    Name=emp.Name,
-                    Salary=emp.Salary,
-                    DepartmentId=emp.DepartmentId,
-                    JobTitle=emp.JobTitle,
-                    ImageUrl=emp.ImageUrl,
-                    Address=emp.Address,
-                    formFile=emp.formFile
-
-                });
-                employeeManager.SaveChange();
-
-                return RedirectToAction("GetAll");
+                    ModelState.AddModelError("DepartmentId", "Please select Department");
+                }
             }
             
-            emp.DepartmentList = departmentManager.GetAll();
+
+                emp.DepartmentList = departmentManager.GetAll();
+
+                emp.DeptOptions = new SelectList(emp.DepartmentList, "Id", "Name");
+
+
+                return View("AddEmployee", emp);
             
-            emp.DeptOptions = new SelectList(emp.DepartmentList, "Id", "Name");
-
-
-            return View ("AddEmployee",emp);
-
         }
+        
         public IActionResult EditEmployee(int id)
         {
            

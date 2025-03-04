@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using MVcProject.Models;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Net.NetworkInformation;
+﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using MVC.DAL.Models;
 
 namespace MVcProject.ViewModel
 {
@@ -13,8 +11,8 @@ namespace MVcProject.ViewModel
         [Required(ErrorMessage ="This Field Is Required")]
         [MaxLength(100,ErrorMessage ="The  Length Of Full Name must Be Less Than 100")]
         [MinLength(3,ErrorMessage ="The  Length Of Full Name Must Be more Than 3")]
-       
-
+        [UniqueName]
+        [Remote(action:"CheckName",controller:"Employee",AdditionalFields ="Address",ErrorMessage ="Student Name Must Contain ITI")]
         public string Name { get; set; }
         [Required(ErrorMessage ="This Field Is Required")]
         [Range(minimum:20000,maximum:90000,ErrorMessage ="Salary Must Be Between (20_000)and (90_000)")]
@@ -27,7 +25,7 @@ namespace MVcProject.ViewModel
 
         
        
-        public IFormFile formFile { get; set; }
+        public IFormFile? formFile { get; set; }
 
 
         public int DepartmentId { get; set; }
