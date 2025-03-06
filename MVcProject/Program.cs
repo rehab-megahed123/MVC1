@@ -1,7 +1,9 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MVC.BLL.Manager.Abstraction;
 using MVC.BLL.Manager.Implementation;
 using MVC.DAL.Models;
+using MVC.DAL.Models.Identity;
 using MVC.DAL.Repository.Abstraction;
 using MVC.DAL.Repository.Implementation;
 using MVcProject.Models;
@@ -16,7 +18,12 @@ namespace MVcProject
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
-            builder.Services.AddControllersWithViews();
+            // make HandleErrorFilter ====>  global Filter
+            builder.Services.AddControllersWithViews(
+            //option=>
+            //{
+            //    option.Filters.Add(new HandleErrorAttribute());
+            /*}*/);
             builder.Services.AddScoped<IEmployeeManager, EmployeeManager>();
             builder.Services.AddScoped<IDepartmentManager, DepartmentManager>();
             builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
@@ -29,12 +36,21 @@ namespace MVcProject
             //if i want to change default:
             builder.Services.AddSession(options => {
                 options.IOTimeout = TimeSpan.FromMinutes(30);
-                }
+            }
             );
             builder.Services.AddDbContext<ApplicationDBContext>(options =>
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("cs"));
             });
+            //Register identity Service
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(option =>
+            {
+                option.Password.RequiredLength = 4;
+                option.Password.RequireDigit = false;
+                option.Password.RequireUppercase = false;
+            }
+            ).AddEntityFrameworkStores<ApplicationDBContext>();
+
             var app = builder.Build();
             #region (Custom MiddleWares)
             //app.Use(async(httpContext, Next) =>
@@ -69,6 +85,7 @@ namespace MVcProject
             app.UseSession();
 
             app.UseRouting();
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

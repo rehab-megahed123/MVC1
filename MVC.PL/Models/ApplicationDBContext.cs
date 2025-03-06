@@ -1,8 +1,10 @@
 ﻿
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using MVC.DAL.Models.Identity;
 namespace MVcProject.Models
 {
-    public class ApplicationDBContext :DbContext
+    public class ApplicationDBContext :IdentityDbContext<ApplicationUser>
     {
 
        public DbSet<Employee> Employees { get; set; }   

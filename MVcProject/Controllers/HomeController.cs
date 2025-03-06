@@ -22,7 +22,7 @@ namespace MVcProject.Controllers
         {
             return View();
         }
-
+        // ResultFilter
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

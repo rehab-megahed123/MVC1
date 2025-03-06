@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http;
 using MVcProject.ViewModel;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Linq.Expressions;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MVcProject.Controllers
 {
@@ -44,6 +45,7 @@ namespace MVcProject.Controllers
             
             
         }
+        [Authorize]
         public IActionResult DetailsVM(int id)
         {
 
@@ -58,6 +60,7 @@ namespace MVcProject.Controllers
             vm1.Color = "red";
             return View("DetailsVM",vm1);
         }
+        
         public IActionResult GetAll()
         {
             var list = employeeManager.GetAll();
@@ -65,6 +68,7 @@ namespace MVcProject.Controllers
             return View("ShowAll", list);
 
         }
+        [Authorize]
         public IActionResult AddEmployee()
         {
             emps_LIstOfDepartmentVM emps = new emps_LIstOfDepartmentVM();
@@ -144,7 +148,7 @@ namespace MVcProject.Controllers
                 return View("AddEmployee", emp);
             
         }
-        
+        [Authorize]
         public IActionResult EditEmployee(int id)
         {
            
@@ -216,6 +220,7 @@ namespace MVcProject.Controllers
             
             return View("EditEmployee", emp);
         }
+        [Authorize]
         public IActionResult DeleteEmployee(int id)
         {
             
